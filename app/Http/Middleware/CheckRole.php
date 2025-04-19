@@ -17,9 +17,14 @@ class CheckRole
         $user = Auth::user();
         
         foreach($roles as $role) {
-            // Periksa apakah peran pengguna saat ini cocok dengan peran yang diizinkan
-            $method = 'is' . ucfirst($role);
-            if (method_exists($user, $method) && $user->$method()) {
+            // Check if the current user role matches any of the allowed roles
+            if ($role === 'pegawai' && $user->isPegawai()) {
+                return $next($request);
+            } else if ($role === 'atasan' && $user->isAtasan()) {
+                return $next($request);
+            } else if ($role === 'kepalaDepartemen' && $user->isKepalaDepartemen()) {
+                return $next($request);
+            } else if ($role === 'hrd' && $user->isHRD()) {
                 return $next($request);
             }
         }

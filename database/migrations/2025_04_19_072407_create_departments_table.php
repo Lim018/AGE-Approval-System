@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('head_id')->nullable();
             $table->timestamps();
+        });
+        
+        // Menambahkan foreign key setelah tabel dibuat
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('supervisor_id')->references('id')->on('users');
         });
     }
 

@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('approval_histories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('pengajuan_id');
+            $table->unsignedBigInteger('approved_by');
+            $table->enum('level', ['atasan', 'kadep', 'hrd']);
+            $table->enum('status', ['approved', 'rejected']);
+            $table->text('komentar')->nullable();
             $table->timestamps();
+            
+            $table->foreign('pengajuan_id')->references('id')->on('pengajuans');
+            $table->foreign('approved_by')->references('id')->on('users');
         });
     }
 
